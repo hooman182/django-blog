@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}نوشته ها{% endblock title %}
+{% block app %}
+
+{% for post in posts %}
+
+    <div class="card w-75 mb-3">
+        <a href="{% url "blog:post_detail" post.id %}">
+            <h2 class="card-title">{{post.title}}</h2>
+        </a>
+        <div class="card-body">
+        <p>{{post.publish}} by {{post.author}}</p>
+        <p class="card-text">{{post.body|truncatewords:30|linebreaks}}</p>
+        </div>
+    </div>
+
+{% endfor %}
+
+{% endblock app %}
