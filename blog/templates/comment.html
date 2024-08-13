@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{% endblock title %}
+
+{% block app %}
+    <h2>نظر شما ثبت شد</h2>
+    <p>{{comment.name}}</p>
+    <p>{{comment.email}}</p>
+    <p>{{comment.body}}</p>
+    <button class="btn btn-primary" onclick="history.back()">بازگشت</button>
+{% endblock app %}
