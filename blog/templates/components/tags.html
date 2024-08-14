@@ -1,0 +1,10 @@
+<div class="card w-100">
+    <div class="card-body">
+        <div class="card-title">برچسب ها</div>
+        <div class="card-text">
+            {% for tag in tags %}
+            <a class="bg-secondary m-1 mt-2 py-1 px-2 rounded text-white" href="{% url "blog:post_list_by_tag" tag.name %}">{{tag.name}}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>

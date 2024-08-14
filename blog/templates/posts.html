@@ -1,23 +1,40 @@
 {% extends "base.html" %}
-{% block title %}نوشته ها{% endblock title %}
+{% block title %}بلاگ|نوشته ها{% endblock title %}
 {% block app %}
 
-{% for post in posts %}
+<div class="row">
+    <div class="col-8">
 
-    <div class="card w-75 mb-3">
-        <div class="card-body">
-            <h3 class="card-title">
-                <a href="{{post.get_absolute_url}}">
-                    {{post.title}}
-                </a>
-            </h3>
-        <p>{{post.publish}} by {{post.author}}</p>
-        <p class="card-text">{{post.body|truncatewords:30|linebreaks}}</p>
+        {% if tag %}
+        <h3 class="mb-3 pb-2 border-bottom text-secondary">نوشته هایی درباره {{tag}}</h3>
+        {% endif %}
+
+        {% for post in posts %}
+        <div class="card w-100 mb-3">
+            <div class="card-body">
+                <h2 class="card-title fs-4 fw-bold">
+                    <a href="{{post.get_absolute_url}}" class="text-decoration-none text-black">
+                        {{post.title}}
+                    </a>
+                </h2>
+                <p class="card-text">{{post.body|truncatewords:30|linebreaks}}</p>
+                <p class="text-secondary m-0">نوشته شده توسط {{post.author}} در  {{post.publish|date:"m D Y"}}</p>
+                <p class="text-secondary bg-light p-2">برچسب ها: {{post.tags.all | join:", "}}</p>
+            </div>
         </div>
+        {% endfor %}
     </div>
 
-{% endfor %}
+    <div class="col">
+        <div class="row mb-3">
+            {% include "./components/search.html" %}
+        </div>
+        <div class="row">
+            {% include "./components/tags.html" %}
+        </div>
+    </div>
+</div>
 
-{% include "pagination.html" with page=page_obj %}
+{% include "./components/pagination.html" with page=posts %}
 
 {% endblock app %}

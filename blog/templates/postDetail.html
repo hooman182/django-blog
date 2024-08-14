@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}نوشته ها{% endblock title %}
+{% block title %}هومن | {{post.title}}{% endblock title %}
 
 {% block app %}
 
@@ -7,28 +7,48 @@
 <p>{{post.publish}}</p>
 <p>{{post.body}}</p>
 
+
+<div class="row">
+    <h3>نوشته های مشابه دیگر</h3>
+    <ul>
+    {% for post in similar_posts %}
+    
+        <li><a href="">{{post.title}}</a></li>
+        {% empty %}
+        <p>نوشته مشابه ای یافت نشد !</p>
+    {% endfor %}
+    </ul>
+</div>
+
+
 {% with comments.count as total_comments %}
-<h2>{{total_comments}} comment {{total_comments|pluralize}}</h2>
+<h4>{{total_comments}} دیدگاه ثبت شده است </h4>
 {% endwith %}
 
 <div>
     {% for comment in comments %}
-        <div class="border border-dark m-2 py-2 px-4">
-            <p>{{comment.name}} - {{comment.created}}</p>
-            <p>{{comment.body | linebreaks}}</p>
+        <div class="border border-secondary my-2 rounded">
+            <div class="d-flex justify-content-between bg-secondary text-white px-2 pt-2">
+                <p>{{comment.name}}</p>
+                <p>{{comment.created}}</p>
+            </div>
+            <div class="px-4">
+                <p>{{comment.body | linebreaks}}</p>
+            </div>
         </div>
         {% empty %}
-        <p>There are no comments</p>
+        <p>شما اولین نفر برای ثبت دیدگاه این نوشته باشید!</p>
         {% endfor %}
 </div>
 
-<div class="py-2 px-4">
-    <form action="{% url "blog:post_comment" post.id %}" method="post">
+<div class="bg-white py-2 px-4 mb-4">
 
+    <form action="{% url "blog:post_comment" post.id %}" method="post" >
         {{form.as_p}}
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">ثبت نظر</button>
     </form>
+
 </div>
 
 {% endblock app %}
