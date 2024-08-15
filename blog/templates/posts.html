@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load blog_tags %}
 {% block title %}بلاگ|نوشته ها{% endblock title %}
 {% block app %}
 
@@ -17,8 +18,10 @@
                         {{post.title}}
                     </a>
                 </h2>
-                <p class="card-text">{{post.body|truncatewords:30|linebreaks}}</p>
-                <p class="text-secondary m-0">نوشته شده توسط {{post.author}} در  {{post.publish|date:"m D Y"}}</p>
+                <div class="d-flex">
+                    <p class="text-secondary">نوشته شده توسط {{post.author}}</p>
+                    <p class="text-secondary m-auto">{{post.publish|date:"m D Y"}}</p>
+                </div>
                 <p class="text-secondary bg-light p-2">برچسب ها: {{post.tags.all | join:", "}}</p>
             </div>
         </div>
@@ -26,11 +29,35 @@
     </div>
 
     <div class="col">
+        <div class="row mb-3 bg-white rounded pt-3">
+            <p class="fs-bold"> {% total_posts %} نوشته منتشر شده است.</p>
+        </div>
         <div class="row mb-3">
             {% include "./components/search.html" %}
         </div>
-        <div class="row">
+        <div class="row mb-3">
             {% include "./components/tags.html" %}
+        </div>
+        <div class="row mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">آخرین نوشته ها</div>
+                    {% show_latest_posts 3 %}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">محبوب ترین نوشته ها</div>
+                    {% get_most_commented_posts as most_commented_posts %}
+                    <ul>
+                    {% for post in most_commented_posts %}
+                        <li><a href="{{post.get_absolute_url}}">{{post.title}}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load blog_tags %}
 {% block title %}هومن | {{post.title}}{% endblock title %}
 
 {% block app %}
 
 <h1>{{post.title}}</h1>
 <p>{{post.publish}}</p>
-<p>{{post.body}}</p>
+<p>{{post.body | markdown}}</p>
 
 
 <div class="row">
@@ -13,7 +14,7 @@
     <ul>
     {% for post in similar_posts %}
     
-        <li><a href="">{{post.title}}</a></li>
+        <li><a href="{{post.get_absolute_url}}">{{post.title}}</a></li>
         {% empty %}
         <p>نوشته مشابه ای یافت نشد !</p>
     {% endfor %}
