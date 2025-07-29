@@ -137,3 +137,9 @@ GitHub.sublime-settings
 !.vscode/extensions.json 
 .history
 */migrations
+
+/node_modules
+/static/CACHE
+/hep.md
+
+/package-lock.json
